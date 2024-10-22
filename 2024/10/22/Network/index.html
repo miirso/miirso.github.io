@@ -4,15 +4,260 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>cumt_计算机网络 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="otherssl对 TCP 的加强，实现在应用层。 # 绪论 每一章的要点：   每一层的功能以及，向上一层提供了什么服务。【 _就像 OS 中 IO 软件里的 5 层软件层次一样 _】 怎样实现这一层的功能。  理解今天的网络，理解明天的网络。 **** 本章概要  基本术语和概念。 构成网络的基本硬件和软件组件。 网络边缘：端系统和网络应用。 网络核心：链路和交换机、将端系统和网络核心连接的接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cumt_计算机网络">
+<meta property="og:url" content="http://example.com/2024/10/22/Network/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="otherssl对 TCP 的加强，实现在应用层。 # 绪论 每一章的要点：   每一层的功能以及，向上一层提供了什么服务。【 _就像 OS 中 IO 软件里的 5 层软件层次一样 _】 怎样实现这一层的功能。  理解今天的网络，理解明天的网络。 **** 本章概要  基本术语和概念。 构成网络的基本硬件和软件组件。 网络边缘：端系统和网络应用。 网络核心：链路和交换机、将端系统和网络核心连接的接">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717046972087-c5bfa5aa-e2c8-4805-9017-a2318f4f31e3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716869306977-4cf0925a-2768-449b-b4af-9b3ed38eddd8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716869335612-47441122-b014-458b-a4aa-f3f66a4cf476.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716869366084-0099278d-ce26-4128-89a9-748183362496.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716869552188-6247f5cf-d543-48d2-9b08-b9f7f8705859.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716444064645-cf4a64da-5462-412d-8391-41677a1f42fe.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716444808418-36c13722-069c-42b9-a87f-da17cd27f82c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716445323912-4cbf092f-66db-496f-bf88-0ef0e0ee58e3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716464864714-b10bdc9a-cd2c-4ba2-aeee-5e0bd96a51fd.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716874002443-7a6bf1d1-7681-45ba-a1fc-da675b0b5ca5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716876735614-e90039e8-1c47-42a1-9f74-4160dc78605e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720277640936-877293ae-7412-45da-85f7-e6736e46c515.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720277710883-db1bf898-5606-43e0-a0d5-7505f285f1bd.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720277725686-a266d629-4d5c-4f01-a65f-cd94fe098155.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716879166252-f48c0098-26f4-4ec7-9242-a3e8f2a4d3b4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716880761184-8ab0bdfa-56f0-4441-8202-7101c844cebb.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716900755096-f76c260a-2713-49f1-ba4d-44e489eb838c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716913866242-a1568bb5-1daf-4e7f-8f8a-2b196c4593ac.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716913703589-a8dcf72b-18b0-40bd-812c-b09f5a79d4b9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716913772607-06820851-f213-435d-97f2-dfae81924980.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716911202135-010dc8eb-3e44-44c0-9263-f0852913920d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716912795908-07012f6a-bd5d-498f-a497-ac8520afc661.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716909627465-720c1215-46dc-43d1-b523-1348e5f4273a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716915076479-f953b1c3-65f9-4a02-abec-356067fbf730.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720582195332-894ee6ec-15e8-4972-9813-e37382bbbadb.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720582184817-d73561a0-ad36-4996-bb1d-9105342416ce.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720280033752-7874a7db-367b-4736-a686-8788494c38b5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720280064273-fb7d664d-194d-4865-a25f-c89e0838bde1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720280095633-5e3e46fa-6983-4ee2-b2b4-a7052321d9b5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720276366872-f3cfc0b8-a565-4507-995a-def8ad926905.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720276527000-4c4e0983-a857-4a18-91ac-122a04bb586f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279098370-fc39d2c0-b8de-458b-819c-90945b6b452a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279646232-2587c046-2dab-4241-ab1e-cfd7a17d7cba.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279996793-ed7274de-0036-4d71-b8b5-ce983944cfae.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720277953138-799fe944-2600-4419-8ad0-4d6c807d3bcc.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720278409347-396444a1-8865-4e70-aeac-f144745099bf.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720278604482-63b48f17-d4c7-4074-9295-8cf00be29e33.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720278727118-f86bc93d-b368-4c8a-b6b8-7a9298469566.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720278614055-e095e093-4076-4fc9-9af4-00c953bf2772.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720278744880-f0ac849b-3600-46b3-8905-c419717ae7f0.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720278835521-4112f0d8-3c56-4c1c-874c-0ae3d2edb92f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720278914533-155d9efa-ee77-464f-bbef-79fe8b704a90.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279136191-3e5acd40-3104-4860-9f7a-b99135068958.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279162096-ce8fc527-572d-4395-acfe-359dc343e2d4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279310899-151543eb-fb1b-4d5c-bcab-c96463608922.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279398722-ec6efcd2-8d33-4909-b062-2b6ca562376c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279459921-2a04e7de-11f1-400b-8a97-5deb5881a628.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720279536040-31d68fde-77cd-40f4-8797-dd182bca132e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720280671203-b6df7348-3de2-42e7-96ef-5c2cecc8c2aa.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720280971211-ca15e546-b492-4064-9648-effb861d2c91.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720281033231-842649f3-6fa0-4ab8-ac5b-ebfc31f19b09.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720457048506-8b16712b-9ee9-489d-90f6-11593d5962af.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720491379974-8c1fad40-2808-43ce-9b93-6cf8c19a1b8d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720491409895-7ce24a20-4cdf-42a1-a877-2ab0902d2b45.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720495492632-17af8ad6-8686-48dc-aae2-64ce7768de82.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720495505281-ff31c32c-03fa-4f8f-a81d-a8b0fcc3c2b6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720495511684-85d5eab0-4747-46da-bd8d-55a0eae5a10a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720495649639-74f4634c-35a9-4494-94a0-5634e4fda93a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720496522365-c2052716-60e3-4af2-a66a-f3fa3e0ee2dc.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720496571419-f03faac9-58e2-4ac0-95f7-33db2d0a9111.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720496604116-c951a210-1379-4eaa-a528-94c3a9b2aedf.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720496647274-b52d5be6-5ac6-4934-8dae-a5a1873a0d82.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720496612977-e7b6a3df-87f6-4e49-a847-95f5f72bd504.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720496639427-79a94559-69de-4421-a74b-31a6ba06024c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720496667636-b279d5b7-0c46-4018-8092-a5f5f96d8c5b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720498151044-ee7d5653-0427-4f22-9fd2-e851e29ceffd.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720503968135-d4d77350-6db2-46b9-b0b8-6e16fea7eb53.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720499653845-87d101ce-9611-435e-965c-45c3c0082802.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720499842732-b74d031b-b37e-40f5-b34e-e11ead640a21.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720500078829-13c8ffbe-9c7f-481c-8f29-73ad09516534.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1716984476891-59d0b217-d3b5-4b1c-86f9-014de77f2a83.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720495968135-f387da8e-d3a0-4e24-a157-10cee024dc68.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717048879233-25fa4710-d36a-4167-b23d-92f401fd1fc8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717051522350-8adcc285-2ef8-46be-bf6d-0860fcafb8db.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720497144800-b508d359-51d5-4c39-a122-6147a1047d80.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720497342993-bb3e8eb4-0032-461f-90b9-0b25457abdc6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717057723645-adb0c9d6-d966-4514-ae9d-ccd318d77f40.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720498770872-a3e80038-5034-44f0-94ca-24116ae9408e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720499057031-9898dd2e-f1be-4890-8a9b-0123b683f90a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720499091922-9e48afd6-34cc-454f-a13e-8779a494c8dc.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720499111898-d2174ee0-52a7-46ec-9e64-e1c4b9ef220a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720503913733-a8d21b25-0adc-4dac-8f8b-2381cd2ccec6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717058978846-0d25e90d-8c9b-4180-b27f-dcd39027148f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717060209317-fffaea0c-6258-449a-af9f-c9a2615ec5f1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717060743413-321553c1-f47b-4c94-b57c-3dcade601efe.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720494469796-c055e053-634b-49e1-a23a-5cdfed2be754.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720495326117-d2a0eb8e-abea-4be3-8d49-017805a5bfbe.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720495605953-bdb2f6ae-7ddb-46f9-a646-390517083a6c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717066271977-ee2a6abf-54f9-4eb8-9ea1-89d981c9c80e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717066650654-e6d79fb1-6543-432f-adfc-ac66db36cefb.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717068135458-407a103e-ad36-4ed3-970c-9c88a593158c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720197889230-7f81d563-2a12-403e-a4f2-e22339a30eb7.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720195322504-28dae3f3-5233-4bd6-8587-07b80668b204.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720197054037-99dff8c8-9afc-4a23-bf2d-5cc27712fb50.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720197291405-9d2e5022-c2bc-430f-be45-949dde9b664f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717079367232-cb578ed7-207b-45c3-87e2-5e9cea5f9960.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720197788136-3811c9c8-5f9f-469f-b931-a3d70a7722e7.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720197822731-7a02a1bd-57c4-41d4-a632-9fc0550ceac8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717080263546-2afeff95-a7ac-48c1-8cde-26ced2d7c601.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717080997244-29f52fce-1726-4163-9db5-f821791c37a3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717081638581-1f06e212-20dd-4189-a555-636ace8c453e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717127650627-7bda26dd-fb8b-43f0-9ef6-45d4516cb5d2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717129652452-e0f28aab-c624-4255-81a5-3034bc5c34ed.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720321539217-b9239f4c-3fa7-454e-b1ca-1e0861de4a7b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720321552717-20feca71-bab7-4651-89f3-17e60e847cda.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/__latex/cbe7302ddba71c483a2469ee7221d451.svg">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717305400485-165f1f6e-ab3d-4296-bec9-2b5b944e781a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717306149194-1a6d2036-6ac5-4aff-9b74-b4419e07169e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717307182725-808eb1a9-839a-421f-b8f5-b84c4cafc849.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717309633190-ef62007b-c252-43cc-b44d-993689a76531.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720199146017-0f1fc6ff-be74-4726-ac5f-06aa78dec811.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717312140581-3a041e0b-9aab-4168-a159-6effea39d98d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717312370083-50c9d9c1-18df-47e1-8eb4-214d8393a2d1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720321814807-6943537a-cd55-4f57-9102-4d4b8e3371f9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717314015737-e1ef9408-76b6-409a-8a0a-1d15dc93347c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717314647781-d51a5795-a711-4345-82cb-76619096f83d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717315458671-6a767ace-45eb-4025-a890-3d7ec0a21614.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717315477860-54a98676-8888-4912-8db8-b320f6bb0868.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717316115719-81bdc382-af36-462c-b57f-fa397f396725.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720325164883-b84a225a-3e5d-4253-962f-adc03c0d54a9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720325185767-2ac0da6f-9c69-445b-8dff-a7d32bfef81a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720325209845-60a948cb-b6be-47fa-8423-e16d229d7a87.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717319553671-c786fc5d-f8b7-4978-8364-947329aab522.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720327327750-1f0e57ff-42ef-455c-9405-26a01d5d7551.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720449430148-582dcfc3-47b9-4313-b1a7-62481dea640c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720449789997-abeeb6b7-ec31-4c23-a1a8-e27d6d95759b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720453232673-88c3af90-aeaa-48f7-9261-525a1aef6151.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720455076484-00b8a5c3-289c-48e6-8a58-7e904c6bb326.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720455185282-b7deabbc-6a72-42dc-bd69-17d34b2a4d44.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720455302560-6a55bfb9-ec09-4400-9fee-83e2e52c1d82.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720455474257-ab0f0352-66bd-4f7d-acbd-2096880b0e15.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720455917565-1a19dccf-90c9-46f6-9db8-88404ee0dadb.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720456491307-fc9de689-73d8-4574-be4a-60ec4f2d23fa.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720456594578-fc87b60b-d0eb-4cf0-ae73-b76a535fec46.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720456735824-eed07a28-cef5-418a-95f7-7d81ee4de126.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720456839863-795b03d1-eb3a-4799-8671-f473142233e9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720198059201-170a913f-e698-4d8f-9b20-05c9d40d18f8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720198066987-0b5e42d7-864d-4db0-aceb-d2dc57c8eb34.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720198355197-a00be7ea-71b0-4a8b-bfeb-ffecd9ae73fe.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720198574893-1aa1438d-23a8-4efe-b99e-76e3945d7b89.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720323430637-9dad8343-40d5-431f-9df3-0b090455fd6f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720323711249-94e5b3a2-952e-416b-a328-df5dd845cc48.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720324055258-7a2610e3-3dd2-463e-8c51-bfbb530302cf.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720324092188-f6470c82-2f15-4c01-a937-0061c4c9ca69.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720324253924-cc931dd6-10f4-4d38-96da-510ae6abd35d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720325745586-819c7486-d453-4545-bbd9-ad994e8b9cdc.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720325977709-3ebb7067-8bb3-4552-9ea8-303987f37157.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720325865135-b8ee6e6c-a010-47ec-8583-bdd723dcd18d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720326000392-7a985d82-995d-48b0-8e8c-356e15596cef.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720326299573-da2a00bf-9c9a-45ef-bcca-01061b280de9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720326656155-11b4ff79-bd7c-4f7e-83d6-e984becc9130.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720326842791-87194d2d-4bff-429b-ad01-90bf91d81ccf.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1718518936308-d31cdca1-8964-4977-b6f1-bce613715cd9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1718519727556-3cfa85c8-7efa-46f1-ad5d-34f9f0755f75.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1718523044234-1af0a613-6490-46cf-8809-a884527c01d3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1718523398898-0002f5c4-c409-4bd0-8fdf-c5630bbc0974.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1718524160964-eb787040-90f1-4b89-a5f6-c50d4a344b50.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1719901306003-8b8f2103-192d-4303-a9e1-3f7c46968a5a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720511975537-4cbc32ea-0143-4eaa-b0ff-15eaf7dfac05.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720021440671-1b0c19ec-19ba-4e08-ab1f-038260186c52.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720523681009-93d4458c-baf8-4570-84b1-cfc5e8caa2f5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1719904207987-df7278e3-f886-43ad-8dae-f9d33b56b9ec.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720058452308-c1f78513-2466-4c27-97a6-4a47e3f80c8f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720061619190-d717bdb5-4620-43f0-85c0-5b84808cbec3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1719902368952-c42d9bef-ac02-4cb0-9bd4-72aedcb615a2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1719902386408-007ff855-ae85-407c-9e60-f46985e912b5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1719905373363-41d43aa0-d9b0-44a2-be13-619e67b86c03.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1719905415930-24ac5027-0c3d-44d6-9e34-2ef9665b8b23.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720509428080-5bd2bdb8-1180-4637-a392-17a5036c3a28.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720509436605-078f0641-5041-47e7-b60f-ec81365f57f3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720018404225-a1ce4a2f-a0cf-4c65-a4aa-c1ead59a7e98.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720526996048-7a40bcc0-92c8-4251-aa65-13a0832aa3fb.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720508908067-91685081-6278-43f8-b6c2-3072dd304472.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720509347399-fa5b41ec-151e-4be8-a816-718705ac57cc.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720018744131-1a0ba300-9e61-43f5-a7b5-58e6a9610df3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720019665648-1cd93be1-b36c-411a-a59b-eb47c5f9399e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720525367740-2525cfad-6b24-4f07-a5e9-a3b8d4325d7a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720525385053-ab809204-ae20-41a3-bf68-2d32a1e89cff.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720525388828-41b82e10-c090-413d-8c74-d20711629e6f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720528016571-3c64e566-004c-459b-b8af-4a9ea28c8fa2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720021523806-ee7df9a3-88d3-4598-850c-57372807cbae.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720019230799-f0e3b329-af55-43dc-add5-2bdb340ebf78.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720021761437-014c7ce0-1017-4af5-a3ed-dd867e699a70.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720524520038-cb8b4af1-8b91-45fb-bcd4-d1ae596505e3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720017686824-dd344e54-f956-49ad-9310-202e5c7dc5e6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720103860839-66531437-cc86-4afe-9260-2a7364c525cf.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720104116976-c5b6a40a-16bf-45fa-a565-e6ec17dab5f8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720107549193-b18ce6d2-367a-4e3a-a37c-519f9053f1a6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720108293841-1cd923e1-e637-4fce-bde5-6d58d7c8ac92.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720155218609-6b0ea189-1b23-49c9-a694-e2b6600dfb8b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720156398860-2020ef73-d01c-49a9-a3a4-c479d47e107d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506050868-f62285cc-4a9d-4b0a-9db7-69884c3660e4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506070173-23f482b2-40f6-485d-b7aa-14bb84779188.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506079365-7a97ec6c-d7ab-4320-bbcb-b3b3e8d1cfc8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506357175-f166520f-7e30-4c9e-b637-5e75c401c762.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506363439-67cb598a-3481-4bb7-b41e-f26a74b8eba1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506553176-db57a347-4dbb-49f0-afbb-d52dd58afd2c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506012851-ae4994aa-1827-4ceb-93b4-9e57ecd60bc3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720506020023-1d243a73-51af-4932-904f-afb6bde26279.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720508196662-2a721416-2efa-4770-b893-4d565bb648a1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720105254333-d23f0c0d-bc2e-4131-b467-241053f4f0ff.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720106176155-e73ee327-afaf-41d0-81ac-acd89ba61814.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720108042193-f129addf-103f-4cfb-af2a-c9464653e1f4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720151001441-826482a3-db81-4c0d-8bdc-89e2b8510be2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720150968652-56699ab1-4fbc-4be0-be30-c993859f1a5c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720151012456-cac5cd2b-9ef9-4da3-89b2-ed24c5d6123f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720151102894-65464bca-ca1c-4c40-a702-b9ffb25df00e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720157131285-0b7536b6-f802-4a49-b54b-b096af8f04c6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720157172440-46ba102c-a981-47bb-aa1c-432adc4960ad.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720157187071-f8d33c20-81e9-442c-bd46-dded5ec9639e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720157199148-9cbe051a-a902-45d0-92ed-762e0d2dbd2b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720157208230-0fbee2f8-2a84-4388-896b-97418860d28d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720504554479-55b7a0b6-a0df-4340-92b3-8a9640ebea84.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720504651880-99433db6-a215-4d77-8cc5-1861a0b2bdaf.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063811557-bb109c68-936e-4ee7-8a96-b87e906065d6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063856205-ef568888-166b-4e97-9d30-38ef38e50a28.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720062785359-263bfb2c-d154-4a0d-902f-d4fec953df81.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063186889-49291ed4-d867-4e5e-9c1d-9c87d64e38d4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063195419-022770e4-6ae9-4384-b2c2-23258b706e05.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063209685-df1b3577-2b20-47f7-bcdc-e38b222d74f5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063227593-82975a11-ddbf-438f-b5e0-9d56ec95d4ee.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063240592-8f303fac-ebbd-4ca1-b515-76f29a19b1f0.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720583017189-ce42df60-2406-48b4-bec8-cfceb5847b69.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720062186557-8afdd3b3-dd6d-4436-8d33-69d5c18d4417.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720062220628-7201959d-902a-40c9-8bd8-b642af407110.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720062614877-99e3c330-e1b1-40ec-8101-d3d4e7239506.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720505522494-e3bf1082-c451-42a2-8230-5268757a0a58.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720505653827-b65dd220-8c55-4ea8-be72-a8b3e3834b8f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720065390858-1e5b47a8-a447-4953-b783-62c9a7147f53.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720504899166-07927f14-ce13-44a6-9cc8-2f3a9303d11b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720065615121-375c7889-9a3b-4e55-b64c-fd9a5cb64096.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720063990238-07775ef9-672a-45cd-9d22-571775c2e4ba.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720064015293-2af68248-4178-4884-8235-fbfe60f1614a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720064024197-bec08561-30b3-46e7-9325-3e8c0aaf138f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720064559580-26e76750-a806-4e91-b80f-de403adc4982.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720073576338-275ee665-45d4-4299-a18b-2a651f7e1de7.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720504255420-1b7a788b-7dc2-46a8-be42-01a7e5230b52.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/jpeg/33668709/1720457019356-e32a9e3b-914a-4eba-a1fa-56d1f87e73db.jpeg">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1720324710245-ba5d8674-a368-4aba-b5d6-39f30dbba3fc.png">
+<meta property="article:published_time" content="2024-10-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-10-22T09:08:01.357Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cumt">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/33668709/1717046972087-c5bfa5aa-e2c8-4805-9017-a2318f4f31e3.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -67,9 +312,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-Network" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-Network" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/10/22/Network/" class="article-date">
   <time class="dt-published" datetime="2024-10-21T16:00:00.000Z" itemprop="datePublished">2024-10-22</time>
@@ -82,8 +325,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/10/22/Network/">cumt_计算机网络</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      cumt_计算机网络
     </h1>
   
 
@@ -1599,11 +1842,9 @@ TCP 在 IP 的尽力而为的不可靠之上建立了可靠数据传输。这也
     </footer>
   </div>
   
-</article>
-
-
-
+    
   
+</article>
 
 
 </section>
